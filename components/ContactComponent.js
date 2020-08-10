@@ -4,19 +4,19 @@ import { Card, ListItem } from 'react-native-elements';
 import { render } from 'react-dom'; 
 import { COMMENTS } from '../shared/comments';
 
-function Contact() {
-    return (
-        <Card title='Contact Information' wrapperStyle={{margin: 20}}>
-            <Text style={{marginBottom: 10}}>
-                            1 Nucamp Way
-                            Seattle, WA 98001
-                            U.S.A.
+// function Contact() {
+//     return (
+//         <Card title='Contact Information' wrapperStyle={{margin: 20}}>
+//             <Text style={{marginBottom: 10}}>
+//                             1 Nucamp Way
+//                             Seattle, WA 98001
+//                             U.S.A.
 
-                            Phone: 1-206-555-1234
-                            Email: campsites@nucamp.co
-            </Text>
-        </Card>
-    );
+//                             Phone: 1-206-555-1234
+//                             Email: campsites@nucamp.co
+//             </Text>
+//         </Card>
+//     );
 
     class Contact extends Component {
         constructor(props) {
@@ -41,7 +41,7 @@ function Contact() {
 
             return (
                 <ScrollView>
-                    <Mission />
+                    <Comment />
                     <Card
                         title="Contact Info">
                         <FlatList

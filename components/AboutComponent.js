@@ -11,9 +11,11 @@ function Mission() {
             </Text>
         </Card>
     );
-
-    class About extends Component {
-​       constructor(props) {
+}
+​
+class About extends Component {
+​
+    constructor(props) {
         super(props);
         this.state = {
             partners: PARTNERS
@@ -24,7 +26,7 @@ function Mission() {
         title: 'About Us'
     };
 ​
-​    render() {
+    render() {
         const renderPartner = ({item}) => {
             return (
                 <ListItem
