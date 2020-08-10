@@ -11,11 +11,9 @@ function Mission() {
             </Text>
         </Card>
     );
-}
-​
-class About extends Component {
-​
-    constructor(props) {
+
+    class About extends Component {
+​       constructor(props) {
         super(props);
         this.state = {
             partners: PARTNERS
@@ -41,7 +39,6 @@ class About extends Component {
             <ScrollView>
                 <Mission />
                 <Card
-                    onClick={()=> this.logAllTheThings()}
                     title="Community Partners">
                     <FlatList
                         data={this.state.partners}
