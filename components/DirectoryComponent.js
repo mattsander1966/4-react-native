@@ -31,7 +31,6 @@ class Directory extends Component {
             );
         };
 
-        return (
             if (this.props.campsites.isLoading) {
                 return <Loading />;
             }
@@ -43,11 +42,11 @@ class Directory extends Component {
                 );
             }
             return (
-            <FlatList
-                data={this.props.campsites.campsites}
-                renderItem={renderDirectoryItem}
-                keyExtractor={item => item.id.toString()}
-            />
+                <FlatList
+                    data={this.props.campsites.campsites}
+                    renderItem={renderDirectoryItem}
+                    keyExtractor={item => item.id.toString()}
+                />
         );
     }
 }
