@@ -8,8 +8,7 @@ const store = ConfigureStore();
 export default function App() {
     return (
         <Provider store={store}>
-             <Main />
+            <Main />
         </Provider>
     );
 }
-

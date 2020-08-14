@@ -38,17 +38,18 @@ export const fetchCampsites = () => dispatch => {
     return fetch(baseUrl + 'campsites')
         .then(response => {
                 if (response.ok) {
-                return response;
+                    return response;
                 } else {
                     const error = new Error(`Error ${response.status}: ${response.statusText}`);
                     error.response = response;
-                throw error;
+                    throw error;
                 }
             },
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
-            })
+            }
+        )
         .then(response => response.json())
         .then(campsites => dispatch(addCampsites(campsites)))
         .catch(error => dispatch(campsitesFailed(error.message)));
@@ -85,7 +86,8 @@ export const fetchPromotions = () => dispatch => {
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
-            })
+            }
+        )
         .then(response => response.json())
         .then(promotions => dispatch(addPromotions(promotions)))
         .catch(error => dispatch(promotionsFailed(error.message)));
@@ -122,7 +124,8 @@ export const fetchPartners = () => dispatch => {
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
-            })
+            }
+        )
         .then(response => response.json())
         .then(partners => dispatch(addPartners(partners)))
         .catch(error => dispatch(partnersFailed(error.message)));
@@ -140,4 +143,15 @@ export const partnersFailed = errMess => ({
 export const addPartners = partners => ({
     type: ActionTypes.ADD_PARTNERS,
     payload: partners
+});
+
+export const postFavorite = campsiteId => dispatch => {
+    setTimeout(() => {
+        dispatch(addFavorite(campsiteId));
+    }, 2000);
+};
+
+export const addFavorite = campsiteId => ({
+    type: ActionTypes.ADD_FAVORITE,
+    payload: campsiteId
 });

@@ -1,37 +1,43 @@
 import React, { Component } from 'react';
-import { Card, Icon } from 'react-native-elements';
 import { Text, View, ScrollView, FlatList } from 'react-native';
+import { Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { BaseUrl } from '../shared/BaseUrl';
+import { baseUrl } from '../shared/baseUrl';
+import { postFavorite } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
         campsites: state.campsites,
-        comments: state.comments
+        comments: state.comments,
+        favorites: state.favorites
     };
 };
 
+const mapDispatchToProps = {
+    postFavorite: campsiteId => (postFavorite(campsiteId))
+};
 
-function RenderCampsite({props}) {
-   
+function RenderCampsite(props) {
+
     const {campsite} = props;
 
     if (campsite) {
         return (
             <Card
                 featuredTitle={campsite.name}
-                image={{uri: BaseUrl + campsite.image}}>
+                image={{uri: baseUrl + campsite.image}}>
                 <Text style={{margin: 10}}>
                     {campsite.description}
                 </Text>
-                    <Icon
-                        name= {props.favorite ? 'heart' : 'heart-o'}
-                        type= 'font-awesome'
-                        color= '#f50'
-                        raised
-                        reverse
-                        onPress={() => props.favorite ? console.log('already marked as a fav') : props.markFavorite()}
-                    />
+                <Icon
+                    name={props.favorite ? 'heart' : 'heart-o'}
+                    type='font-awesome'
+                    color='#f50'
+                    raised
+                    reverse
+                    onPress={() => props.favorite ?
+                        console.log('Already set as a favorite') : props.markFavorite()}
+                />
             </Card>
         );
     }
@@ -62,7 +68,7 @@ function RenderComments({comments}) {
 }
 
 class CampsiteInfo extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -70,13 +76,13 @@ class CampsiteInfo extends Component {
         };
     }
 
-    markFavorite() {
-        this.setState({favorite: true});
+    markFavorite(campsiteId) {
+        this.props.postFavorite(campsiteId);
     }
 
     static navigationOptions = {
         title: 'Campsite Information'
-    };
+    }
 
     render() {
         const campsiteId = this.props.navigation.getParam('campsiteId');
@@ -85,15 +91,13 @@ class CampsiteInfo extends Component {
         return (
             <ScrollView>
                 <RenderCampsite campsite={campsite}
-                    favorite={this.state.favorite}
-                    markFavorite={() => this.markFavorite()}
-                 />
-
+                    favorite={this.props.favorites.includes(campsiteId)}
+                    markFavorite={() => this.markFavorite(campsiteId)}
+                />
                 <RenderComments comments={comments} />
             </ScrollView>
         );
     }
 }
 
-  
-export default connect(mapStateToProps)(CampsiteInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(CampsiteInfo);
