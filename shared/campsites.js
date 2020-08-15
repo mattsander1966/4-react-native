@@ -30,5 +30,13 @@ export const CAMPSITES = [
         elevation: 42,
         featured: true,
         description: "You'll never want to leave this hidden gem, deep within the lush Redux Woods."
+    },
+    {
+        id: 4,
+        name:"Mongo Lake Campground",
+        image: "/assets/images/mongo-lake.jpg",
+        elevation: 35,
+        featured: true,
+        description: "You'll never want to leave this hidden gem, at the waters edge of Mongo Lake Campsite."
     }
 ];
