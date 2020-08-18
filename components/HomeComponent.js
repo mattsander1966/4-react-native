@@ -87,5 +87,8 @@ class Home extends Component {
                     errMess={this.props.partners.errMess}
                 />
             </Animated.ScrollView>
+        );
+    }
+}
 
 export default connect(mapStateToProps)(Home);
