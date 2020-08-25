@@ -3,7 +3,7 @@ import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet, Alert, Pan
 import { Card, Icon, Input, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
-import { postFavorite } from '../redux/ActionCreators';
+import { postFavorite, postComment } from '../redux/ActionCreators';
 import * as Animatable from 'react-native-animatable';
 
 const mapStateToProps = state => {
@@ -15,7 +15,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    postFavorite: campsiteId => (postFavorite(campsiteId))
+    postFavorite: campsiteId => (postFavorite(campsiteId)),
+    postComment: (campsiteId, rating, author, comment) => (
+        postComment(campsiteId, rating, author, comment)
+    )
 };
 
 function RenderCampsite(props) {
@@ -25,6 +28,8 @@ function RenderCampsite(props) {
     const view = React.createRef();
 
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+
+    const recognizeComment = ({dx}) => (dx > 200) ? false : true;
  
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -52,6 +57,9 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 );
+            }
+            else if (recognizeComment(gestureState)) {
+                props.onShowModal();
             }
             return true;
         }
@@ -98,6 +106,7 @@ function RenderComments({comments}) {
     const renderCommentItem = ({item}) => {
         return (
             <View style={{margin: 10}}>
+                <Text style={{fontSize: 14}}>{item.text}</Text>
                 <Rating 
                     startingValue={3}
                     imageSize={10}
@@ -106,6 +115,7 @@ function RenderComments({comments}) {
                     ratingCount={10}
                     style={{alignItems: 'flex-start', padding: '5%'}}
                 />
+                <Text style={{fontSize: 12}}>{`- ${item.author} ${item.date}`}</Text>
             </View>
         );
     };
@@ -149,6 +159,7 @@ class CampsiteInfo extends Component {
     handleComment(campsiteId) {
         console.log(JSON.stringify(this.state));
         this.toggleModal();
+        this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
     }
 
     resetForm() {  
@@ -196,7 +207,7 @@ class CampsiteInfo extends Component {
                                     placeholder="Author"
                                     leftIcon={{ type: 'font-awesome', name: 'user-o' }}
                                     leftIconContainerStyle={{paddingRight: 10}}
-                                    onChangeText={(text) => this.setState({ text: text })}
+                                    onChangeText={(author) => this.setState({ author: author })}
                                 />
                                 <Input
                                     placeholder="Comment"
